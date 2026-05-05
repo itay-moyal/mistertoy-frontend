@@ -1,8 +1,7 @@
-import { storageService } from './async-storage.service.js'
-import { utilService } from '.util.service.js'
+import { storageService } from "./async-storage.service.js"
+import { utilService } from "./util.service.js"
 
-
-const STORAGE_KEY = 'toyDB'
+const STORAGE_KEY = "toyDB"
 
 _createToys()
 export const toyService = {
@@ -17,9 +16,9 @@ export const toyService = {
 
 function query(filterBy = {}) {
   return storageService.query(STORAGE_KEY).then((toys) => {
-    if (!filterBy.txt) filterBy.txt = ''
+    if (!filterBy.txt) filterBy.txt = ""
     if (!filterBy.maxPrice) filterBy.maxPrice = Infinity
-    const regExp = new RegExp(filterBy.txt, 'i')
+    const regExp = new RegExp(filterBy.txt, "i")
     return toys.filter((toy) => {
       return regExp.test(toy.name) && toy.price <= filterBy.maxPrice
     })
@@ -44,23 +43,25 @@ function save(toy) {
 
 function getEmptyToy() {
   return {
-    name: '',
-    price: '',
+    name: "",
+    price: "",
     labels: [],
     inStock: true,
   }
 }
 
 function getDefaultFilter() {
-  return { txt: '', maxPrice: '', labels: [], inStock: null }
+  return { txt: "", maxPrice: "", labels: [], inStock: null }
 }
 
 function getRandomToy() {
   return {
-    name: 'Toy-' + (Date.now() % 1000),
+    name: "Toy-" + utilService.getRandomIntInclusive(1, 100),
     price: utilService.getRandomIntInclusive(1000, 9000),
-    labels: ['On wheels', 'Box game', 'Art', 'Baby'],
+    labels: ["On wheels", "Box game", "Art", "Baby"],
     inStock: utilService.getRandomIntInclusive(0, 1),
+    // createdAt : TODO later
+    // imgUrl :  TODO later
   }
 }
 
@@ -73,7 +74,7 @@ function _createToys() {
     toy._id = utilService.makeId()
     toys.push(toy)
   }
-  console.log(toys);
-  
+  console.log(toys)
+
   utilService.saveToStorage(STORAGE_KEY, toys)
 }
