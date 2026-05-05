@@ -1,5 +1,86 @@
+import { Link } from "react-router-dom"
+import { useSelector, useDispatch } from "react-redux"
+
+import { toyService } from "../services/toy.service.local.js"
+import {
+  loadToys,
+  saveToy,
+  removeToy,
+  setFilterBy,
+} from "../store/actions/toy.actions.js"
+import { showSuccessMsg, showErrorMsg } from "../services/event-bus.service.js"
+
+import { useEffectUpdate } from "../hooks/useEffectUpdate.js"
+
+import { Loader } from "../cmps/Loader.jsx"
+import { ToyFilter } from "../cmps/ToyFilter.jsx"
+import { ToyList } from "../cmps/ToyList.jsx"
+
 export function ToyIndex() {
-  return <section className="toy-index">
-    <h1>Toy Index</h1>
-  </section>
+  const toys = useSelector((state) => state.toyModule.toys)
+  const filterBy = useSelector((state) => state.toyModule.filterBy)
+  const isLoading = useSelector((state) => state.loadModule.isLoading)
+  // console.log(toys)
+
+  useEffectUpdate(() => {
+    loadToys().catch((err) => {
+      showErrorMsg("Cannot load cars!")
+    })
+  }, [filterBy])
+
+  function onSetFilter(filterBy) {
+    setFilterBy(filterBy)
+  }
+
+  function onRemoveToy(toyId) {
+    removeToy(toyId)
+      .then(() => {
+        showSuccessMsg("Toy removed")
+      })
+      .catch((err) => {
+        showErrorMsg("Cannot remove toy")
+      })
+  }
+
+  function onAddToy() {
+    const toyToSave = toyService.getRandomCar()
+    saveToy(toyToSave)
+      .then((savedToy) => {
+        showSuccessMsg(`Toy added (id: ${savedToy._id})`)
+      })
+      .catch((err) => {
+        showErrorMsg("Cannot add toy")
+      })
+  }
+
+  function onEditToy(toy) {
+    const price = +prompt("New price?")
+    const toyToSave = { ...toy, price }
+
+    saveCar(toyToSave)
+      .then((savedToy) => {
+        showSuccessMsg(`Toy updated to price: $${savedToy.price}`)
+      })
+      .catch((err) => {
+        showErrorMsg("Cannot update toy")
+      })
+  }
+
+  if (!toys) return <Loader />
+  return (
+    <section className="toy-index">
+      <ToyFilter filterBy={filterBy} onSetFilter={onSetFilter} />
+      <div>
+        <Link to="/toy/edit" className="btn">
+          Add Toy
+        </Link>
+      </div>
+      <h1>Toy List</h1>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <ToyList toys={toys} onRemoveToy={onRemoveToy} />
+      )}
+    </section>
+  )
 }

@@ -12,7 +12,7 @@ import { SET_IS_LOADING } from "../reducers/load.reducer.js"
 import { store } from "../store.js"
 
 export function loadToys() {
-  const filterBy = state.toyModule.filterBy
+  const filterBy = store.getState().toyModule.filterBy
   store.dispatch({ type: SET_IS_LOADING, isLoading: true })
 
   return toyService

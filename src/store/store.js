@@ -1,11 +1,8 @@
 import { loadReducer } from './reducers/load.reducer.js'
 import { toyReducer } from './reducers/toy.reducer.js'
 
-import {
-  legacy_createStore as createStore,
-  compose,
-  combineReducers,
-} from 'redux'
+//pretier-ignore
+import {legacy_createStore as createStore,compose,combineReducers,} from 'redux'
 
 const rootReducer = combineReducers({
   toyModule: toyReducer,
