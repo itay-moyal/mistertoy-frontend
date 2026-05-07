@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
+import { useEffect } from "react"
 
 import { toyService } from "../services/toy.service.local.js"
 import {
@@ -9,8 +10,6 @@ import {
   setFilterBy,
 } from "../store/actions/toy.actions.js"
 import { showSuccessMsg, showErrorMsg } from "../services/event-bus.service.js"
-
-import { useEffectUpdate } from "../hooks/useEffectUpdate.js"
 
 import { Loader } from "../cmps/Loader.jsx"
 import { ToyFilter } from "../cmps/ToyFilter.jsx"
@@ -22,9 +21,9 @@ export function ToyIndex() {
   const isLoading = useSelector((state) => state.loadModule.isLoading)
   // console.log(toys)
 
-  useEffectUpdate(() => {
+  useEffect(() => {
     loadToys().catch((err) => {
-      showErrorMsg("Cannot load cars!")
+      showErrorMsg("Cannot load toys!")
     })
   }, [filterBy])
 
@@ -67,6 +66,8 @@ export function ToyIndex() {
   }
 
   if (!toys) return <Loader />
+  // console.log(isLoading);
+
   return (
     <section className="toy-index">
       <ToyFilter filterBy={filterBy} onSetFilter={onSetFilter} />
@@ -75,7 +76,6 @@ export function ToyIndex() {
           Add Toy
         </Link>
       </div>
-      <h1>Toy List</h1>
       {isLoading ? (
         <Loader />
       ) : (

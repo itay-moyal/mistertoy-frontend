@@ -14,6 +14,7 @@ export const toyService = {
   getDefaultFilter,
 }
 
+// FIX filterBy max Price Infinity error.
 function query(filterBy = {}) {
   return storageService.query(STORAGE_KEY).then((toys) => {
     if (!filterBy.txt) filterBy.txt = ""
@@ -26,7 +27,10 @@ function query(filterBy = {}) {
 }
 
 function getById(toyId) {
-  return storageService.get(STORAGE_KEY, toyId)
+  return storageService.get(STORAGE_KEY, toyId).then((toy) => {
+    toy = _setNextPrevToyId(toy)
+    return toy
+  })
 }
 
 function remove(toyId) {
@@ -61,7 +65,6 @@ function getRandomToy() {
     labels: ["On wheels", "Box game", "Art", "Baby"],
     inStock: utilService.getRandomIntInclusive(0, 1),
     // createdAt : TODO later
-    // imgUrl :  TODO later
   }
 }
 
@@ -72,9 +75,21 @@ function _createToys() {
   for (var i = 0; i < 12; i++) {
     const toy = getRandomToy()
     toy._id = utilService.makeId()
-    toys.push(toy)
+    ;((toy.imgUrl = `https://robohash.org/${toy.name}?set=set2`),
+      toys.push(toy))
   }
   console.log(toys)
 
   utilService.saveToStorage(STORAGE_KEY, toys)
+}
+
+function _setNextPrevToyId(toy) {
+  return storageService.query(STORAGE_KEY).then((toys) => {
+    const toyIdx = toys.findIndex((currToy) => currToy._id === toy._id)
+    const nextToy = toys[toyIdx + 1] ? toys[toyIdx + 1] : toys[0]
+    const prevToy = toys[toyIdx - 1] ? toys[toyIdx - 1] : toys[toys.length - 1]
+    toy.nextToyId = nextToy._id
+    toy.prevToyId = prevToy._id
+    return toy
+  })
 }

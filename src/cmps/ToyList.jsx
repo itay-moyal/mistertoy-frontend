@@ -1,3 +1,17 @@
+import { ToyPreview } from "./ToyPreview.jsx"
+
 export function ToyList({ toys, onRemoveToy }) {
-  return <p>Toy List</p>
+  return (
+    <ul className="toy-list">
+      {toys.map((toy) => (
+        <li key={toy._id}>
+          <ToyPreview toy={toy} />
+
+          <section>
+            <button onClick={() => onRemoveToy(toy._id)}>Remove</button>
+          </section>
+        </li>
+      ))}
+    </ul>
+  )
 }
