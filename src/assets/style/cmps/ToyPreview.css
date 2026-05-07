@@ -1,0 +1,17 @@
+.toy-preview {
+  text-align: center;
+  padding: 0.3em;
+  display: flex;
+  flex-direction: column;
+}
+.toy-preview h4 {
+  text-transform: capitalize;
+  color: black;
+}
+
+.toy-preview-img-container {
+  max-width: 200px;
+  border: 1px solid var(--clr2bg);
+  border-radius: 50%;
+  overflow: hidden;
+}

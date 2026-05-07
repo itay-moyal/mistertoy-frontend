@@ -1,16 +1,20 @@
 .main-layout {
-  margin: 0 auto;
-  padding-left: 1.6rem;
-  padding-right: 1.6rem;
-
+    display: grid;
+    grid-template-columns: 1.6rem 1fr 1.6rem;
 }
 
+.main-layout > * {
+    grid-column: 2;
+}
 
+.main-layout .full {
+    grid-column: 1/-1;
+}
 
 .container {
-  max-width: 800px;
-  padding: 1em;
-  margin: auto;
+    max-width: 800px;
+    padding: 1em;
+    margin: auto;
 }
 
 footer {
@@ -19,5 +23,4 @@ footer {
   padding: 1em;
   text-align: center;
 }
-
 
