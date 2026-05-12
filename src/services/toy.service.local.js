@@ -12,7 +12,19 @@ export const toyService = {
   getEmptyToy,
   getRandomToy,
   getDefaultFilter,
+  getLabels,
 }
+
+const labels = [
+  "On wheels",
+  "Box game",
+  "Art",
+  "Baby",
+  "Doll",
+  "Puzzle",
+  "Outdoor",
+  "Battery Powered",
+]
 
 // FIX filterBy max Price Infinity error.
 function query(filterBy = {}) {
@@ -20,8 +32,13 @@ function query(filterBy = {}) {
     if (!filterBy.txt) filterBy.txt = ""
     if (!filterBy.maxPrice) filterBy.maxPrice = Infinity
     const regExp = new RegExp(filterBy.txt, "i")
+    console.log("filterBy.inStock:", filterBy.inStock, typeof filterBy.inStock)
     return toys.filter((toy) => {
-      return regExp.test(toy.name) && toy.price <= filterBy.maxPrice
+      return (
+        regExp.test(toy.name) &&
+        toy.price <= filterBy.maxPrice &&
+        (filterBy.inStock === "" || toy.inStock === filterBy.inStock)
+      )
     })
   })
 }
@@ -50,12 +67,15 @@ function getEmptyToy() {
     name: "",
     price: "",
     labels: [],
-    inStock: true,
+    inStock: "",
   }
 }
 
 function getDefaultFilter() {
-  return { txt: "", maxPrice: "", labels: [], inStock: null }
+  return { txt: "", maxPrice: Infinity, labels: [], inStock: "" }
+}
+function getDefaultSort() {
+  return { by: "name", asc: true }
 }
 
 function getRandomToy() {
@@ -63,7 +83,7 @@ function getRandomToy() {
     name: "Toy-" + utilService.getRandomIntInclusive(1, 100),
     price: utilService.getRandomIntInclusive(1000, 9000),
     labels: ["On wheels", "Box game", "Art", "Baby"],
-    inStock: utilService.getRandomIntInclusive(0, 1),
+    inStock: utilService.getRandomIntInclusive(0, 1) === 1 ? true : false,
     // createdAt : TODO later
   }
 }
@@ -92,4 +112,8 @@ function _setNextPrevToyId(toy) {
     toy.prevToyId = prevToy._id
     return toy
   })
+}
+
+function getLabels() {
+  return [...labels]
 }
