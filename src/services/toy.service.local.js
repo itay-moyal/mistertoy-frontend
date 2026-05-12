@@ -26,18 +26,21 @@ const labels = [
   "Battery Powered",
 ]
 
-// FIX filterBy max Price Infinity error.
 function query(filterBy = {}) {
   return storageService.query(STORAGE_KEY).then((toys) => {
     if (!filterBy.txt) filterBy.txt = ""
     if (!filterBy.maxPrice) filterBy.maxPrice = Infinity
+
     const regExp = new RegExp(filterBy.txt, "i")
-    console.log("filterBy.inStock:", filterBy.inStock, typeof filterBy.inStock)
+
     return toys.filter((toy) => {
       return (
         regExp.test(toy.name) &&
         toy.price <= filterBy.maxPrice &&
-        (filterBy.inStock === "" || toy.inStock === filterBy.inStock)
+        (filterBy.inStock === "" || toy.inStock === filterBy.inStock) &&
+        (!filterBy.labels ||
+          filterBy.labels.length === 0 ||
+          filterBy.labels.some((label) => toy.labels?.includes(label)))
       )
     })
   })
