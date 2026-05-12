@@ -1,8 +1,15 @@
 .toy-preview {
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+
   text-align: center;
   padding: 0.3em;
-  display: flex;
-  flex-direction: column;
+
+  margin: 50px;
+  padding: 20px;
+  max-width: 300px;
+  word-wrap: break-word;
 }
 .toy-preview h4 {
   text-transform: capitalize;

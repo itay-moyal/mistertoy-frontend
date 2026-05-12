@@ -4,6 +4,11 @@ export function ToyPreview({ toy }) {
   return (
     <article className="toy-preview">
       <h4>{toy.name}</h4>
+      
+       <div className='toy-labels'>
+            {toy.labels.map(label => (<span key={label}> {label}</span>))}
+        </div>
+
       <div className="toy-preview-img-container">
         <img src={toy.imgUrl} alt="" />
       </div>

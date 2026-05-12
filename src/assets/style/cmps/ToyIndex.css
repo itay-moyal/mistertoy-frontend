@@ -1,0 +1,18 @@
+.btn-add {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: rgb(107, 179, 202);
+  color: black;
+
+  max-width: 90px;
+  padding: 10px;
+  border-radius: 5px;
+  margin: 10px auto;
+}
+
+.btn-add:hover {
+  background-color: rgb(81, 118, 131);
+  color: white;
+}

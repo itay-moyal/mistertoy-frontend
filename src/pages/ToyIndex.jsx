@@ -72,7 +72,7 @@ export function ToyIndex() {
     <section className="toy-index">
       <ToyFilter filterBy={filterBy} onSetFilter={onSetFilter} />
       <div>
-        <Link to="/toy/edit" className="btn">
+        <Link to="/toy/edit" className="btn-add">
           Add Toy
         </Link>
       </div>
