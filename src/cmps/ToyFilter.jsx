@@ -18,7 +18,10 @@ export function ToyFilter({ filterBy, onSetFilter }) {
     console.log(field)
     if (type === "checkbox") value = target.checked
     if (type === "select-multiple") {
-      value = Array.from(target.selectedOptions, (option) => option.value)
+      value = Array.from(
+        target.selectedOptions,
+        (option) => option.value,
+      ).filter((emptyString) => emptyString !== "")
     }
     if (field === "inStock") {
       if (value !== "") value = value === "true" ? true : false
