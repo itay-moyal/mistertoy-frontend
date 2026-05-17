@@ -1,16 +1,82 @@
-# React + Vite
+# Mister Toy Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React + Vite frontend for the Mister Toy management application. This repository includes toy listing, filtering, creation, editing, and detail views with Redux state management and client-side routing.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Browse a toy catalog
+- Filter toys by name, price range, labels, and stock status
+- Add new toys using the toy editor
+- Edit existing toys
+- Delete toys from the toy list
+- View toy details with next/previous navigation
+- Manage application state with Redux
+- Navigate using React Router
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Vite
+- React 19
+- React Router DOM 7
+- Redux 5 + React Redux
+- Axios
+- ESLint
 
-## Expanding the ESLint configuration
+## Project Structure
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- `src/App.jsx` — root application component and routing
+- `src/cmps/` — reusable UI components such as `AppHeader`, `ToyList`, `ToyPreview`, and `ToyFilter`
+- `src/pages/` — pages for home, about, toy index, toy details, and toy edit
+- `src/services/` — data and utility services, including `toy.service.js`, `http.service.js`, and `event-bus.service.js`
+- `src/store/` — Redux store configuration, actions, and reducers
+- `src/assets/` — application styles and shared CSS files
+
+## Routes
+
+- `/` — Home page
+- `/about` — About page
+- `/toy` — Toy list and filter page
+- `/toy/edit` — Create a new toy
+- `/toy/edit/:toyId` — Edit toy page
+- `/toy/:toyId` — Toy details page
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js 18 or newer
+- npm
+
+### Install dependencies
+
+```bash
+npm install
+```
+
+### Run development server
+
+```bash
+npm run dev
+```
+
+### Build for production
+
+```bash
+npm run build
+```
+
+### Preview production build
+
+```bash
+npm run preview
+```
+
+## Notes
+
+- This frontend expects a backend API endpoint exposing toy CRUD operations under the `toy` path.
+- If you need to adjust the backend URL or API settings, update `src/services/http.service.js`.
+- Utility helpers are available in `toy.service.js`, including `getEmptyToy()` and `getLabels()`.
+
+## License
+
+This project is currently configured as a private application.
