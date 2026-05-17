@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { Link, useParams, useNavigate } from "react-router-dom"
 
-import { toyService } from "../services/toy.service.local.js"
+import { toyService } from "../services/toy.service.js"
 import { showErrorMsg } from "../services/event-bus.service.js"
 import { Loader } from "../cmps/Loader.jsx"
 
@@ -11,21 +11,28 @@ export function ToyDetails() {
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (toyId) loadToy()
+    async function fetchToy() {
+      try {
+        if (toyId) await loadToy()
+      } catch (err) {
+        showErrorMsg("Cannot load toy!")
+      }
+    }
+    fetchToy()
   }, [toyId])
 
-  function loadToy() {
-    toyService
-      .getById(toyId)
-      .then((toy) => setToy(toy))
-      .catch((err) => {
-        showErrorMsg("Had issues in toy details", err)
-        navigate("/toy")
-      })
+  async function loadToy() {
+    try {
+      const toy = await toyService.getById(toyId)
+      setToy(toy)
+    } catch (err) {
+      navigate("/toy")
+      throw new Error("Had issues in toy details,Try again.")
+    }
   }
-  console.log(toy);
-  
+
   if (!toy) return <Loader />
+  // console.log(toy)
   return (
     <section className="toy-details">
       <h1>{toy.name}</h1>

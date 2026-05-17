@@ -4,29 +4,37 @@ import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js"
 
 import { Loader } from "../cmps/Loader.jsx"
 
-import { toyService } from "../services/toy.service.local.js"
+import { toyService } from "../services/toy.service.js"
 import { saveToy } from "../store/actions/toy.actions.js"
 
 export function ToyEdit() {
   const navigate = useNavigate()
   const { toyId } = useParams()
 
-  const [toyToEdit, setToyToEdit] = useState(toyService.getRandomToy())
+  const [toyToEdit, setToyToEdit] = useState(toyService.getEmptyToy())
   const toyLabels = toyService.getLabels()
 
   useEffect(() => {
-    if (toyId) loadToy()
+    async function fetchToy() {
+      try {
+        if (toyId) await loadToy()
+      } catch (err) {
+        showErrorMsg("Cannot load toy!")
+      }
+    }
+    fetchToy()
   }, [])
 
-  function loadToy() {
-    toyService
-      .getById(toyId)
-      .then((toy) => setToyToEdit(toy))
-      .catch((err) => {
-        showErrorMsg("Had issues in toy edit,Try again.")
-        console.error(err)
-        navigate("/toy")
-      })
+  async function loadToy() {
+    try {
+      if (!toyId) return
+      const toy = await toyService.getById(toyId)
+      setToyToEdit(toy)
+    } catch (err) {
+      showErrorMsg("Had issues in toy edit,Try again.")
+      navigate("/toy")
+      throw new Error("Had issues in toy edit,Try again.")
+    }
   }
 
   function handleChange({ target }) {
@@ -41,20 +49,17 @@ export function ToyEdit() {
     setToyToEdit((prevToy) => ({ ...prevToy, [name]: value }))
   }
 
-  function onSaveToy(ev) {
+  async function onSaveToy(ev) {
     ev.preventDefault()
-
-    const inStock = toyToEdit.inStock === "true" ? true : false
-    const newToy = { ...toyToEdit, inStock }
-
-    saveToy(newToy)
-      .then(() => {
-        showSuccessMsg("Toy saved successfully.")
-        navigate("/toy")
-      })
-      .catch((err) => {
-        showErrorMsg("Had issues saving toy, Try again.")
-      })
+    try {
+      const inStock = toyToEdit.inStock === "true" ? true : false
+      const newToy = { ...toyToEdit, inStock }
+      await saveToy(newToy)
+      showSuccessMsg("Toy saved successfully.")
+      navigate("/toy")
+    } catch (err) {
+      showErrorMsg("Had issues saving toy, Try again.")
+    }
   }
 
   function onSetLabels(labels) {
@@ -65,7 +70,6 @@ export function ToyEdit() {
     return toyToEdit.inStock
   }
   if (!toyToEdit) return <Loader />
-
 
   return (
     <form onSubmit={onSaveToy} className="container edit-form" action="">
@@ -126,9 +130,7 @@ export function ToyEdit() {
           <option value="false">No</option>
         </select>
       </div>
-      <button onClick={onSaveToy} className="save-toy-btn">
-        Save
-      </button>
+      <button className="save-toy-btn">Save</button>
     </form>
   )
 }

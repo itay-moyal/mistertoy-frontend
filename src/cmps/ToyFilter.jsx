@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react"
 
-import { toyService } from "../services/toy.service.local.js"
+import { toyService } from "../services/toy.service.js"
 import { utilService } from "../services/util.service.js"
 
 export function ToyFilter({ filterBy, onSetFilter }) {
@@ -10,12 +10,10 @@ export function ToyFilter({ filterBy, onSetFilter }) {
 
   useEffect(() => {
     onSetFilter.current(filterByToEdit)
-    console.log(filterByToEdit)
   }, [filterByToEdit])
 
   function handleChange({ target }) {
     let { value, name: field, type } = target
-    console.log(field)
     if (type === "checkbox") value = target.checked
     if (type === "select-multiple") {
       value = Array.from(

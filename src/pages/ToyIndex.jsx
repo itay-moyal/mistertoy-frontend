@@ -2,7 +2,7 @@ import { Link } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
 import { useEffect } from "react"
 
-import { toyService } from "../services/toy.service.local.js"
+import { toyService } from "../services/toy.service.js"
 import {
   loadToys,
   saveToy,
@@ -22,51 +22,41 @@ export function ToyIndex() {
   // console.log(toys)
 
   useEffect(() => {
-    loadToys().catch((err) => {
-      showErrorMsg("Cannot load toys!")
-    })
+    async function fetchToys() {
+      try {
+        await loadToys()
+      } catch (err) {
+        showErrorMsg("Cannot load toys!")
+      }
+    }
+    fetchToys()
   }, [filterBy])
 
   function onSetFilter(filterBy) {
     setFilterBy(filterBy)
   }
 
-  function onRemoveToy(toyId) {
-    removeToy(toyId)
-      .then(() => {
-        showSuccessMsg("Toy removed")
-      })
-      .catch((err) => {
-        showErrorMsg("Cannot remove toy")
-      })
+  async function onRemoveToy(toyId) {
+    try {
+      await removeToy(toyId)
+      showSuccessMsg("Toy removed")
+    } catch (err) {
+      showErrorMsg("Cannot remove toy")
+    }
   }
 
-  function onAddToy() {
+  async function onAddToy() {
     const toyToSave = toyService.getRandomCar()
-    saveToy(toyToSave)
-      .then((savedToy) => {
-        showSuccessMsg(`Toy added (id: ${savedToy._id})`)
-      })
-      .catch((err) => {
-        showErrorMsg("Cannot add toy")
-      })
-  }
+    try {
+      const savedToy = await saveToy(toyToSave)
 
-  function onEditToy(toy) {
-    const price = +prompt("New price?")
-    const toyToSave = { ...toy, price }
-
-    saveCar(toyToSave)
-      .then((savedToy) => {
-        showSuccessMsg(`Toy updated to price: $${savedToy.price}`)
-      })
-      .catch((err) => {
-        showErrorMsg("Cannot update toy")
-      })
+      showSuccessMsg(`Toy added (id: ${savedToy._id})`)
+    } catch (err) {
+      showErrorMsg("Cannot add toy")
+    }
   }
 
   if (!toys) return <Loader />
-  // console.log(isLoading);
 
   return (
     <section className="toy-index">
