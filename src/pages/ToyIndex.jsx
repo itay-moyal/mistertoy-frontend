@@ -17,7 +17,7 @@ import { ToyList } from "../cmps/ToyList.jsx"
 
 export function ToyIndex() {
   const toys = useSelector((state) => state.toyModule.toys)
-  const user = useSelector((storeState) => storeState.userModule.loggedInUser)
+  const user = useSelector((storeState) => storeState.userModule.loggedinUser)
   const filterBy = useSelector((state) => state.toyModule.filterBy)
   const isLoading = useSelector((state) => state.loadModule.isLoading)
   // console.log(toys)
@@ -71,7 +71,7 @@ export function ToyIndex() {
       {isLoading ? (
         <Loader />
       ) : (
-        <ToyList toys={toys} onRemoveToy={onRemoveToy} loggedInUser={user} />
+        <ToyList toys={toys} onRemoveToy={onRemoveToy} loggedinUser={user} />
       )}
     </section>
   )

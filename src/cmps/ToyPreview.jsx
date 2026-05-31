@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 
-export function ToyPreview({ toy, loggedInUser }) {
+export function ToyPreview({ toy, loggedinUser }) {
   return (
     <article className="toy-preview">
       <h4>{toy.name}</h4>
@@ -25,7 +25,7 @@ export function ToyPreview({ toy, loggedInUser }) {
         <button>
           <Link to={`/toy/${toy._id}`}>Details</Link>
         </button>
-        {loggedInUser && loggedInUser.isAdmin && (
+        {loggedinUser && loggedinUser.isAdmin && (
           <button>
             <Link to={`/toy/edit/${toy._id}`}>Edit</Link>
           </button>
