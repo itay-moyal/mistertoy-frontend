@@ -1,6 +1,5 @@
 import { httpService } from "./http.service.js"
 const AUTH_URL = "auth/"
-const USER_URL = "user/"
 const STORAGE_KEY_LOGGEDIN = "loggedinUser"
 
 export const userService = {
@@ -19,7 +18,7 @@ async function login({ username, password }) {
     })
     if (user) return _setLoggedinUser(user)
   } catch (err) {
-    throw new Error(err)
+    throw new Error("Could not login")
   }
 }
 async function logout() {
@@ -27,7 +26,7 @@ async function logout() {
     await httpService.post(AUTH_URL + "logout")
     sessionStorage.removeItem(STORAGE_KEY_LOGGEDIN)
   } catch (err) {
-    throw new Error(err)
+    throw new Error("Could not logout")
   }
 }
 async function signup({ username, password, fullname }) {
@@ -36,7 +35,7 @@ async function signup({ username, password, fullname }) {
     const user = await httpService.post(AUTH_URL + "signup", userToSave)
     if (user) return _setLoggedinUser(user)
   } catch (err) {
-    throw new Error("Invalid signup.")
+    throw new Error("Could not signup")
   }
 }
 function getLoggedinUser() {
@@ -51,11 +50,5 @@ function getEmptyCredentials() {
 }
 
 function _setLoggedinUser(user) {
-  const userToSave = {
-    _id: user._id,
-    fullname: user.fullname,
-    balance: user.balance,
-  }
-  sessionStorage.setItem(STORAGE_KEY_LOGGEDIN, JSON.stringify(userToSave))
-  return userToSave
+  sessionStorage.setItem(STORAGE_KEY_LOGGEDIN, JSON.stringify(user))
 }

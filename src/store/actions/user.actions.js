@@ -1,23 +1,33 @@
 import { userService } from "../../services/user.service.js"
 import { store } from "../store.js"
-import { SET_USER } from "../user.reducer.js"
+import { SET_USER } from "../reducers/user.reducer.js"
 
-export function login(credentials) {
-  return userService.login(credentials).then((loggedinUser) => {
-    store.dispatch({ type: SET_USER, loggedinUser })
-    return loggedinUser
-  })
+export async function login(credentials) {
+  try {
+    const user = await userService.login(credentials)
+    store.dispatch({ type: SET_USER, user })
+  } catch (error) {
+    console.log("user actions Cannot login", error)
+    throw error
+  }
 }
 
-export function signup(credentials) {
-  return userService.signup(credentials).then((loggedinUser) => {
-    store.dispatch({ type: SET_USER, loggedinUser })
-    return loggedinUser
-  })
+export async function signup(credentials) {
+  try {
+    const user = await userService.signup(credentials)
+    store.dispatch({ type: SET_USER, user })
+  } catch (error) {
+    console.log("user actions Cannot signup", error)
+    throw error
+  }
 }
 
-export function logout() {
-  userService.logout().then((loggedinUser) => {
-    store.dispatch({ type: SET_USER, loggedinUser: null })
-  })
+export async function logout() {
+  try {
+    await userService.logout()
+    store.dispatch({ type: SET_USER, user: null })
+  } catch (error) {
+    console.log("user actions Cannot logout", error)
+    throw error
+  }
 }

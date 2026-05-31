@@ -1,5 +1,4 @@
-import { userService } from "../services/user.service.js"
-const { createStore } = Redux
+import { userService } from "../../services/user.service.js"
 
 const initialState = {
   loggedinUser: userService.getLoggedinUser(),

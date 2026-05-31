@@ -11,6 +11,7 @@ import { About } from "./pages/About.jsx"
 import { ToyIndex } from "./pages/ToyIndex.jsx"
 import { ToyDetails } from "./pages/ToyDetails.jsx"
 import { ToyEdit } from "./pages/ToyEdit.jsx"
+import { LoginSignup } from "./pages/LoginSignup.jsx"
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
             <Route element={<ToyEdit />} path="/toy/edit" />
             <Route element={<ToyEdit />} path="/toy/edit/:toyId" />
             <Route element={<ToyDetails />} path="/toy/:toyId" />
+            <Route element={<LoginSignup />} path="/auth" />
           </Routes>
         </main>
         {/* <AppFooter /> */}

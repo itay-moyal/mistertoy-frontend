@@ -16,7 +16,7 @@ const initialState = {
 export function toyReducer(state = initialState, cmd = {}) {
   switch (cmd.type) {
     case SET_TOYS:
-      return { ...state, toys: cmd.toys }
+      return { ...state, toys: cmd.toys, lastToys: state.toys }
 
     case REMOVE_TOY:
       const lastToys = [...state.toys]
@@ -26,7 +26,7 @@ export function toyReducer(state = initialState, cmd = {}) {
         lastToys,
       }
     case ADD_TOY:
-      return { ...state, toys: [...state.toys, cmd.toy] }
+      return { ...state, toys: [...state.toys, cmd.toy], lastToys: state.toys }
 
     case UPDATE_TOY:
       return {

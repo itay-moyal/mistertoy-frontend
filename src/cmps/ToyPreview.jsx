@@ -1,13 +1,15 @@
 import { Link } from "react-router-dom"
 
-export function ToyPreview({ toy }) {
+export function ToyPreview({ toy, loggedInUser }) {
   return (
     <article className="toy-preview">
       <h4>{toy.name}</h4>
-      
-       <div className='toy-labels'>
-            {toy.labels.map(label => (<span key={label}> {label}</span>))}
-        </div>
+
+      <div className="toy-labels">
+        {toy.labels.map((label) => (
+          <span key={label}> {label}</span>
+        ))}
+      </div>
 
       <div className="toy-preview-img-container">
         <img src={toy.imgUrl} alt="" />
@@ -23,9 +25,11 @@ export function ToyPreview({ toy }) {
         <button>
           <Link to={`/toy/${toy._id}`}>Details</Link>
         </button>
-        <button>
-          <Link to={`/toy/edit/${toy._id}`}>Edit</Link>
-        </button>
+        {loggedInUser && loggedInUser.isAdmin && (
+          <button>
+            <Link to={`/toy/edit/${toy._id}`}>Edit</Link>
+          </button>
+        )}
       </section>
     </article>
   )
