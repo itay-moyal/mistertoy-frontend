@@ -12,6 +12,7 @@ import { ToyIndex } from "./pages/ToyIndex.jsx"
 import { ToyDetails } from "./pages/ToyDetails.jsx"
 import { ToyEdit } from "./pages/ToyEdit.jsx"
 import { LoginSignup } from "./pages/LoginSignup.jsx"
+import { UserDetails } from "./pages/UserDetails.jsx"
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
             <Route element={<ToyEdit />} path="/toy/edit/:toyId" />
             <Route element={<ToyDetails />} path="/toy/:toyId" />
             <Route element={<LoginSignup />} path="/auth" />
+            <Route path="user/:id" element={<UserDetails />} />
           </Routes>
         </main>
         {/* <AppFooter /> */}

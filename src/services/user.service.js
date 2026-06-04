@@ -8,6 +8,8 @@ export const userService = {
   signup,
   getLoggedinUser,
   getEmptyCredentials,
+  getUsers,
+  getById,
 }
 
 async function login({ username, password }) {
@@ -51,4 +53,16 @@ function getEmptyCredentials() {
 
 function _setLoggedinUser(user) {
   sessionStorage.setItem(STORAGE_KEY_LOGGEDIN, JSON.stringify(user))
+  return user
+}
+
+function getUsers() {
+  return httpService.get(`user`)
+}
+
+async function getById(userId) {
+  const user = await httpService.get(`user/${userId}`)
+  console.log(user)
+
+  return user
 }

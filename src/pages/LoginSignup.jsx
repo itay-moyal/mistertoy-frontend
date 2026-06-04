@@ -6,12 +6,12 @@ import { userService } from "../services/user.service.js"
 import { showSuccessMsg, showErrorMsg } from "../services/event-bus.service.js"
 import { login, signup } from "../store/actions/user.actions.js"
 
+// import { loadUsers } from "../store/actions/user.actions.js"
 export function LoginSignup() {
   const [credentials, setCredentials] = useState(
     userService.getEmptyCredentials(),
   )
   const [isSignup, setIsSignup] = useState(false)
-
   const navigate = useNavigate()
 
   function handleChange({ target }) {
