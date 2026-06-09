@@ -2,6 +2,7 @@ import { userService } from "../../services/user.service.js"
 import { store } from "../store.js"
 //prettier-ignore
 import { SET_USER,SET_USERS,SET_WATCHED_USER } from "../reducers/user.reducer.js"
+import { SET_IS_LOADING } from "../reducers/load.reducer.js"
 
 import { showErrorMsg } from "../../services/event-bus.service.js"
 export async function login(credentials) {

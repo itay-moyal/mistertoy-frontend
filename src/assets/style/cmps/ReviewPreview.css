@@ -1,0 +1,15 @@
+.review-preview {
+  min-width: 150px;
+
+  flex-grow: 1;
+  a.about {
+    font-weight: bold;
+  }
+
+  pre.review-txt {
+    width: fit-content;
+    padding: 0.5em;
+    font-size: 1rem;
+    background-color: lightsalmon;
+  }
+}

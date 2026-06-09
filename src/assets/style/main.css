@@ -19,6 +19,12 @@
 @import "cmps/ToyEdit.css";
 @import "cmps/ToyIndex.css";
 
+@import "cmps/ReviewEdit.css";
+@import "cmps/ReviewFilter.css";
+@import "cmps/ReviewList.css";
+@import "cmps/ReviewPreview.css";
+@import "cmps/ToyReview.css";
+
 .app {
   display: flex;
   flex-direction: column;
